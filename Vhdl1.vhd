@@ -3,8 +3,8 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 entity vhdl1 is
-	port( code : in std_logic_vector( 3 downto 0);
-			segments: out std_logic_vector (6 downto 0)
+	port( code : in std_logic_vector( 3 downto 0); --4 bit input
+			segments: out std_logic_vector (6 downto 0) --7 bit output
 		);
 	
 end entity;
@@ -60,7 +60,7 @@ decoded_AplusB    :out std_logic_vector(13 downto 0)
 End entity;
 
 Architecture a0 of g05_adder is
-    Component full_add is 
+    Component full_add is -- using full add to easily abstract the addition
         Port (    x,y,Cin : in std_logic;
     S,cout  : out std_logic
 	);
@@ -73,26 +73,26 @@ Architecture a0 of g05_adder is
 	);
     End component vhdl1;
 
-    Signal c_int, inA1, inA2, inB1, inB2, inS1, inS2 : std_logic_vector(3 downto 0);
-    Signal outA1, outA2, outB1, outB2, outS1, outS2 : std_logic_vector(6 downto 0);
+    Signal c_int, inA1, inA2, inB1, inB2, inS1, inS2 : std_logic_vector(3 downto 0); -- splitting input streams into 4 bit vectors to easily map to decoders
 Begin
-    inA1<= A(3 downto 0);
-    inA2(0)<= A(4);
-	 inA2(3 downto 1)<="000";
+    inA1<= A(3 downto 0); 
+    inA2(0)<= A(4); -- only first bit of second input is used 
+	 inA2(3 downto 1)<="000"; -- clean remaining unset bits of input
     inB1<= B(3 downto 0);
-    inB2(0)<= B(4);
-	 inB2(3 downto 1)<="000";
-	Xfull_add0 : full_add port map(inA1(0),inB1(0),'0',inS1(0),c_int(0));
-	Xfull_add1 : full_add port map(inA1(1),inB1(1),c_int(0),inS1(1),c_int(1));
-	Xfull_add2 : full_add port map(inA1(2),inB1(2),c_int(1),inS1(2),c_int(2));
-	Xfull_add3 : full_add port map(inA1(3),inB1(3),c_int(2),inS1(3),c_int(3));
-	Xfull_add4 : full_add port map(inA2(0),inB2(0),c_int(3),inS2(0),inS2(1));
-	vhdl1A1 : vhdl1 port map(inA1,decoded_A(6 downto 0));
-	vhdl1A2 : vhdl1 port map(inA2,decoded_A(13 downto 7));
-	vhdl1B1 : vhdl1 port map(inB1,decoded_B(6 downto 0));
-	vhdl1B2 : vhdl1 port map(inB2,decoded_B(13 downto 7));
-	vhdl1S1 : vhdl1 port map(inS1,decoded_AplusB(6 downto 0));
-	vhdl1S2 : vhdl1 port map(inS2,decoded_AplusB(13 downto 7));
+    inB2(0)<= B(4); -- only first bit of second input is used 
+    inS2(3 downto 1)<=="000"; -- clean remaining unset bits of input
+	 inB2(3 downto 1)<="000"; -- clean remaining unset bits of input
+	Xfull_add0 : full_add port map(inA1(0),inB1(0),'0',inS1(0),c_int(0)); 		
+	Xfull_add1 : full_add port map(inA1(1),inB1(1),c_int(0),inS1(1),c_int(1));	
+	Xfull_add2 : full_add port map(inA1(2),inB1(2),c_int(1),inS1(2),c_int(2));	
+	Xfull_add3 : full_add port map(inA1(3),inB1(3),c_int(2),inS1(3),c_int(3));	
+	Xfull_add4 : full_add port map(inA2(0),inB2(0),c_int(3),inS2(0),inS2(1));	
+	vhdl1A1 : vhdl1 port map(inA1,decoded_A(6 downto 0)); -- 2nd digit of A
+	vhdl1A2 : vhdl1 port map(inA2,decoded_A(13 downto 7)); -- 1st digit of A
+	vhdl1B1 : vhdl1 port map(inB1,decoded_B(6 downto 0)); -- 2nd digit of B
+	vhdl1B2 : vhdl1 port map(inB2,decoded_B(13 downto 7)); -- 1st digit of B
+	vhdl1S1 : vhdl1 port map(inS1,decoded_AplusB(6 downto 0)); -- 2nd digit of the sum
+	vhdl1S2 : vhdl1 port map(inS2,decoded_AplusB(13 downto 7)); -- 1st digit of the sum
 
 End a0;
 
