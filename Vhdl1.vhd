@@ -2,16 +2,18 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity vhdl1 is
+--converts four-bit binary input into seven-segment display signals
+entity vhdl1 is --this is the seven-segment-decoder
 	port( code : in std_logic_vector( 3 downto 0); --4 bit input
 			segments: out std_logic_vector (6 downto 0) --7 bit output
 		);
 	
 end entity;
 
+--architecture of the seven segment decoder
 architecture a0 of vhdl1 is
 begin
-with code select segments <= --careful, numbering might be reversed
+with code select segments <= 
 	"1000000" when "0000",
 	"1111001" when "0001",
 	"0100100" when "0010",
@@ -31,10 +33,13 @@ with code select segments <= --careful, numbering might be reversed
 	"1110111" when others;
 end a0;
 
+--we put multiple entities into one file, for at this stage, the number of entities are still small. We will separate it into
+--multiple files in future projects
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+--full adder
 entity full_add is
 	port(x,y,Cin:in std_logic;
 			s,cout: out std_logic
@@ -47,10 +52,13 @@ begin
 	cout<=(x and y) or (x and cin) or (y and cin);
 end a0;
 
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+--this is the top level entity. It takes in two binary input and generate seven-segment display signals for each of
+--the number and their sum
 Entity g05_adder is
     Port (     A,B            :in std_logic_vector(4 downto 0);
         decoded_A        :out std_logic_vector(13 downto 0);
@@ -66,7 +74,7 @@ Architecture a0 of g05_adder is
 	);
 	End component full_add;
 
-
+--this is the converter to 7-segment display signal	
  Component vhdl1 is
         Port (       code  : in std_logic_vector(3 downto 0);
                segments : out std_logic_vector(6 downto 0)
@@ -80,8 +88,9 @@ Begin
 	 inA2(3 downto 1)<="000"; -- clean remaining unset bits of input
     inB1<= B(3 downto 0);
     inB2(0)<= B(4); -- only first bit of second input is used 
-    inS2(3 downto 1)<=="000"; -- clean remaining unset bits of input
+    inS2(3 downto 2)<="00"; -- clean remaining unset bits of input
 	 inB2(3 downto 1)<="000"; -- clean remaining unset bits of input
+	 --5-bit ripple-carry adder
 	Xfull_add0 : full_add port map(inA1(0),inB1(0),'0',inS1(0),c_int(0)); 		
 	Xfull_add1 : full_add port map(inA1(1),inB1(1),c_int(0),inS1(1),c_int(1));	
 	Xfull_add2 : full_add port map(inA1(2),inB1(2),c_int(1),inS1(2),c_int(2));	
@@ -95,7 +104,6 @@ Begin
 	vhdl1S2 : vhdl1 port map(inS2,decoded_AplusB(13 downto 7)); -- 1st digit of the sum
 
 End a0;
-
 
 
 
