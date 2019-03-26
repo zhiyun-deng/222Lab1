@@ -60,7 +60,12 @@ begin
   countreset(4) <= not (countenable(5) and reset)
   countreset(5) <= 
  
-  
+   decode0: vhdl1 port map (countOut0, HEX0);
+  decode1: vhdl1 port map (countOut1, HEX1);
+  decode2: vhdl1 port map (countOut2, HEX2);
+  decode3: vhdl1 port map (countOut3, HEX3);
+  decode4: vhdl1 port map (countOut4, HEX4);
+  decode5: vhdl1 port map (countOut5, HEX5);
   
   
   process(start, stop)
