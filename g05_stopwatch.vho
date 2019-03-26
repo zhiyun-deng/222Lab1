@@ -61,6 +61,12 @@ begin
   countreset(4) <= not countenable(4) and reset;
   countreset(5) <= not (not countOut5(3) and countOut5(2) and not countOut5(1) and countOut5(0)) and reset;
  
+  decode0: vhdl1 port map (countOut0, HEX0);	
+  decode1: vhdl1 port map (countOut1, HEX1);	
+  decode2: vhdl1 port map (countOut2, HEX2);	
+  decode3: vhdl1 port map (countOut3, HEX3);	
+  decode4: vhdl1 port map (countOut4, HEX4);	
+  decode5: vhdl1 port map (countOut5, HEX5);
   
   
   
