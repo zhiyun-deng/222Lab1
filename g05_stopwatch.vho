@@ -34,7 +34,7 @@ end g05_stopwatch;
 			count : out std_logic_vector(3 downto 0)
 			);
   end component;
- signal enable : std_logic;
+ signal enable, stopwatchclock : std_logic;
  signal countreset : std_logic_vector(5 downto 0);
  signal countenable : std_logic_vector(4 downto 0);
  signal countOut0,countOut1,countOut2,countOut3,countOut4,countOut5 : std_logic_vector(3 downto 0);
