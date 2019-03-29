@@ -161,12 +161,12 @@ begin
 			countenable(4)<='0';
 			countreset(4)<='1';
 		end if;
-		if(countOut5="1010") then
-			countenable(5)<='1';
+		if(countOut5="0110") then
+			
 			countreset(5)<='0';
 			
 		else 
-			countenable(5)<='0';
+			
 			countreset(5)<='1';
 		end if;
 	end if;
