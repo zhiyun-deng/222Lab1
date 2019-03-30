@@ -115,16 +115,17 @@ begin
 
   decode5: g05_7_segment_decoder port map (countOut5, HEX5);
 
-  process (stopwatchclock, countenable, reset)
+  process (stopwatchclock, countenable, reset, countreset, countOut0, countOut1, countOut2)
   begin
 	if(reset = '0') then
 		countreset<="000000";
 	elsif rising_edge(stopwatchclock) then
-		if(countOut0="1010") then
+		
+		if(countOut0="1001") then
 			countenable(0)<='1';
 			countreset(0)<='0';
 			
-		elsif(countOut0="0000") then
+		else 
 			countenable(0)<='0';
 			countreset(0)<='1';
 		end if;
@@ -132,6 +133,7 @@ begin
 		if(countOut1="1010") then
 			countenable(1)<='1';
 			countreset(1)<='0';
+		
 			
 		else 
 			countenable(1)<='0';
