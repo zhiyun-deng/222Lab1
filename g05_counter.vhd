@@ -13,7 +13,7 @@ architecture a0 of g05_counter is
 signal intcount : unsigned(3 downto 0) := "0000";
 begin
 	
-	process(clk, reset)
+	process(clk, reset, intcount)
 	begin
 		if(reset = '0') then
 			intcount <= "0000";
