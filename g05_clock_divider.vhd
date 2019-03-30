@@ -5,7 +5,7 @@ entity g05_clock_divider is
 	port(enable : in std_logic;
 			reset : in std_logic;
 			clk : in std_logic;
-			en_out: out std_logic
+			en_out: out std_logic := '0'
 			);
 end entity;
 
@@ -30,6 +30,7 @@ process(clk, reset)
 			end if;
 			
 		end if;
+	
 	end process;
 end a0;
 
