@@ -19,15 +19,16 @@ process(clk, reset)
 			count <= to_unsigned(499999, 19);
 			en_out <= '0';
 		elsif(rising_edge(clk)) then
+			if(enable = '1') then 
+				count <= count - 1;
+			else count<=count;
+			end if;
 			if(count = 0) then
 				count <= to_unsigned(499999, 19);
 				en_out <= '1';
 			else en_out <= '0';
 			end if;
-			if(enable = '1') then 
-				count <= count - 1;
-			else count<=count;
-			end if;
+			
 			
 		end if;
 	
