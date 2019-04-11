@@ -10,28 +10,24 @@ entity g05_clock_divider is
 end entity;
 
 architecture a0 of g05_clock_divider is
-signal count : unsigned(18 downto 0) := to_unsigned(499999, 19);
+signal count : unsigned(18 downto 0) := to_unsigned(499999, 19); --start current count at the max value
 begin
 
 process(clk, reset)
 	begin
 		if(reset = '0') then
-			count <= to_unsigned(499999, 19);
+			count <= to_unsigned(499999, 19); --reset current count to the max value
 			en_out <= '0';
 		elsif(rising_edge(clk)) then
 			if(enable = '1') then 
-				count <= count - 1;
-			else count<=count;
+				count <= count - 1; --decrement count
+			else count<=count; --when not enabled, count doesn't change 
 			end if;
-			if(count = 0) then
-				count <= to_unsigned(499999, 19);
-				en_out <= '1';
-			else en_out <= '0';
+			if(count = 0) then 
+				count <= to_unsigned(499999, 19); 	--if at min value, return to max value
+				en_out <= '1'; 				--and set the output to 1
+			else en_out <= '0';				--if not at min value, make sure the output is 0
 			end if;
-			
-			
 		end if;
-	
 	end process;
 end a0;
-
