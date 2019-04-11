@@ -13,7 +13,7 @@ architecture a0 of g05_clock_divider is
 signal count : unsigned(18 downto 0) := to_unsigned(499999, 19); --start current count at the max value
 begin
 
-process(clk, reset)
+process(clk, reset)	--update when clock changes, and when resetting
 	begin
 		if(reset = '0') then
 			count <= to_unsigned(499999, 19); --reset current count to the max value
