@@ -10,11 +10,12 @@ entity g05_FSM is
 		);
 end entity;
 architecture a0 of g05_FSM is
-signal intcount : unsigned(3 downto 0) := "0000";--index of states
-
+signal intcount : unsigned(3 downto 0) := "0000";--index of states. Each index corresponds to a different state/output. Changing states=changing index
+--we numbered the states from 0 to 14
 begin
 	process(clk, reset, intcount)
 	begin
+		--resets to different states, depending on the direction input
 		if(reset = '0') then
 			if(direction='1') then
 				intcount<="0000";
@@ -23,12 +24,13 @@ begin
 		elsif(rising_edge(clk)) then
 			if(enable = '1') then 
 				if(direction='1') then
-					
+					--increment the state index
 					intcount <= intcount + 1;
 					if(intcount="1110") then
 						intcount<="0000";
 					end if;
 				else 
+					--decrements state index
 					intcount <= intcount - 1;
 					if(intcount="0000") then
 						intcount<="1110";
@@ -39,7 +41,7 @@ begin
 		end if;
 	
 	end process;
-	
+	--finding the correct output from the state index
 	with intcount select count<=
 		"0001" when "0000",
 		"0010" when "0001",
