@@ -10,13 +10,13 @@ entity bcd_converter is
 end entity;
 
 architecture a0 of bcd_converter is 
-signal inputnum : unsigned(4 downto 0);
-signal add: std_logic:= '0';
+signal inputnum : unsigned(4 downto 0);--input represented as an unsigned number
+signal add: std_logic:= '0';--whether number is greater than 9
 
 begin
 	inputnum(4) <= '0';
 	inputnum(3 downto 0) <= unsigned(input);
-	add <= input(3) and (input(2) or input(1));
+	add <= input(3) and (input(2) or input(1));--1 if number is greater than 9. Zero otherwise
 	process(add, inputnum)
 	begin
 	if(add='1') then 
