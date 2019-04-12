@@ -1,6 +1,7 @@
 library IEEE; 
 use IEEE.STD_LOGIC_1164.ALL; 
 use IEEE.NUMERIC_STD.ALL;
+--entity declaration
 entity g05_multi_mode_counter is
 	port(start: in std_logic;
 		stop: in std_logic;
@@ -42,12 +43,12 @@ architecture a0 of g05_multi_mode_counter is
 	end component;
 
 	--signals
-	signal bcdCount : std_logic_vector(7 downto 0) := "00000000"; 
-	signal enable, en_out : std_logic;
-	signal fsm_out : std_logic_vector(3 downto 0);
+	signal bcdCount : std_logic_vector(7 downto 0) := "00000000"; --the input to the two 7-segment-decoders; output of the bcd-converter
+	signal enable, en_out : std_logic;--enable=whether the counter is on or not; en-out=output of clock-divider
+	signal fsm_out : std_logic_vector(3 downto 0);--output of FSM
 	
 	begin
-		clock_divider : g05_clock_divider port map(enable, reset, clk, en_out); -- either connect it to a 500kHz clock, or find another way to slow it down to 1/s
+		clock_divider : g05_clock_divider port map(enable, reset, clk, en_out); -- source of 1Hz clock
 		
 		fsm : g05_fsm port map(enable, direction, reset, en_out, fsm_out);
 			-- convert from binary to bcd
